@@ -9,7 +9,12 @@ type name struct {
 func main() {
 	objectArray := [5]name{}
 	objectArray[2] = name{shortName: "boy", longName: "girl"}
-	fmt.Printf("This is the object array %v\n", objectArray)
+	fmt.Printf("This is the struct array with just the values %v\n", objectArray)
+	fmt.Printf("This is the struct array with values & keys %+v\n", objectArray)
+
+	newSlice := make([]int, 3, 5)
+	newSlice[0] = 5
+	fmt.Printf("This is our new slice %v\n", newSlice)
 
 	sellableRates := map[string]string{
 		"13": "RAC",
