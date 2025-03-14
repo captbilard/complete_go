@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type name struct {
 	shortName, longName string
@@ -23,4 +25,16 @@ func main() {
 	}
 	rateType, exists := sellableRates["10"]
 	fmt.Printf("does the rate type %s exist:%t\n", rateType, exists)
+
+	// creating a struct and initialiazing immediately
+	employee := struct {
+		name       string
+		salary     int
+		department string
+	}{
+		name:       "Adebayo salami",
+		salary:     65000,
+		department: "Sunridge mall",
+	}
+	fmt.Printf("this is the employee details: %+v", employee)
 }
