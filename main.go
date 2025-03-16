@@ -4,37 +4,66 @@ import (
 	"fmt"
 )
 
-type name struct {
+type Person struct {
 	shortName, longName string
 }
 
+// To add a method to the person struct, we define a func with parenthesis containing the struct type. Like so
+func (p *Person) modifyPersonLongName(name string) {
+	p.longName = name
+	fmt.Printf("This is the new long name modified by the person struct method %v\n", p.longName)
+}
+
 func main() {
-	objectArray := [5]name{}
-	objectArray[2] = name{shortName: "boy", longName: "girl"}
-	fmt.Printf("This is the struct array with just the values %v\n", objectArray)
-	fmt.Printf("This is the struct array with values & keys %+v\n", objectArray)
-
-	newSlice := make([]int, 3, 5)
-	newSlice[0] = 5
-	fmt.Printf("This is our new slice %v\n", newSlice)
-
-	sellableRates := map[string]string{
-		"13": "RAC",
-		"10": "LLK",
-		"24": "PROMO",
+	type Address struct {
+		Street string
+		City   string
 	}
-	rateType, exists := sellableRates["10"]
-	fmt.Printf("does the rate type %s exist:%t\n", rateType, exists)
 
-	// creating a struct and initialiazing immediately
-	employee := struct {
-		name       string
-		salary     int
-		department string
-	}{
-		name:       "Adebayo salami",
-		salary:     65000,
-		department: "Sunridge mall",
+	type Contact struct {
+		name    string
+		address Address
+		phone   string
 	}
-	fmt.Printf("this is the employee details: %+v", employee)
+
+	contact := Contact{
+		name: "Merkley",
+		address: Address{
+			City:   "Lagos",
+			Street: "Mushin",
+		},
+	}
+	fmt.Printf("This is the contact details %v\n", contact)
+
+	person := Person{
+		shortName: "derek",
+		longName:  "derek-Chukwu",
+	}
+	// here we modify properties of the person struct using both an outside defined function and
+	// a struct method.
+	fmt.Println("This is the old short name", person.shortName)
+	modifyPersonShortName(&person)
+	fmt.Println("This is the new short name after function execution", person.shortName)
+
+	fmt.Println("This is the modification of person using the person method")
+	person.modifyPersonLongName("Nkedelim")
+
+	x := 20
+	ptr := &x
+	fmt.Printf("This is the value of x %d and this is the value of pointer gotten from x %p\n", x, ptr)
+	*ptr = 30
+	x = 50
+	fmt.Printf("This is the new value of x %d and this is the value of pointer gotten from x %p\n", x, ptr)
+
+}
+
+// if we only pass in the person variable here, Go makes a copy of the struct and then passes it
+// to the function, it doesn't modify the actual struct as the function would only work on the
+// copy of that struct valid within the execution lifecycle of the function. After then it's moved
+// away from memory. To pass in the main struct we have to pass in a type of the pointer to the person in the args like so
+// *person. then wherever the function is called we pass in the address of the person variable using the
+// ampersand like so modifyPersonShortName(&person), now modifications done to person would persist outside the function scope
+func modifyPersonShortName(person *Person) {
+	person.shortName = "chukwu"
+	fmt.Println("This is the new shortname within the function scope", person.shortName)
 }
